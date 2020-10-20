@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class ProductCatalogFacade {
-
     ConcurrentHashMap<String, Product> products;
 
     public ProductCatalogFacade() {
