@@ -3,47 +3,48 @@ package pl.jkanclerz.voucherstore.productcatalog;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class ProductCatalogFacade {
-    ConcurrentHashMap<String, Product> products;
+    ProductsStorage productsStorage;
 
-    public ProductCatalogFacade() {
-        this.products = new ConcurrentHashMap<>();;
+    public ProductCatalogFacade(ProductsStorage productsStorage) {
+        this.productsStorage = productsStorage;
     }
 
     public String createProduct() {
         Product newProduct = new Product(UUID.randomUUID());
-        products.put(newProduct.getId(), newProduct);
+        productsStorage.save(newProduct);
 
         return newProduct.getId();
     }
 
     public boolean isExistsById(String productId) {
-        return products.get(productId) != null;
+        return productsStorage.getById(productId).isPresent();
     }
 
     public Product getById(String productId) {
-        return products.get(productId);
+        return getProductOrException(productId);
     }
 
     public void updateDetails(String productId, String productDesc, String productPicture) {
-        Product loaded = products.get(productId);
+        Product loaded = getProductOrException(productId);
+
         loaded.setDescription(productDesc);
         loaded.setPicture(productPicture);
     }
 
     public void applyPrice(String productId, BigDecimal valueOf) {
-        Product loaded = products.get(productId);
+        Product loaded = getProductOrException(productId);
+
         loaded.setPrice(valueOf);
     }
 
     public List<Product> getAvailableProducts() {
-        return products.values()
-                .stream()
-                .filter(p -> p.getDescription() != null)
-                .filter(p -> p.getPrice() != null)
-                .collect(Collectors.toList());
+        return productsStorage.allPublished();
+    }
+
+    private Product getProductOrException(String productId) {
+        return productsStorage.getById(productId)
+                .orElseThrow(() -> new ProductNotFoundException(String.format("There is no product with id: %s", productId)));
     }
 }

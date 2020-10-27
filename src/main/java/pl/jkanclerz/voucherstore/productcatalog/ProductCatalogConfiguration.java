@@ -9,12 +9,17 @@ import java.math.BigDecimal;
 public class ProductCatalogConfiguration {
 
     public ProductCatalogFacade productCatalogFacade() {
-        return new ProductCatalogFacade();
+        return new ProductCatalogFacade(new HashMapProductsStorage());
     }
 
     @Bean
-    public ProductCatalogFacade fixturesAwareProductCatalogFacade() {
-        ProductCatalogFacade catalogFacade = new ProductCatalogFacade();
+    public ProductsStorage productionStorage() {
+        return new HashMapProductsStorage();
+    }
+
+    @Bean
+    public ProductCatalogFacade fixturesAwareProductCatalogFacade(ProductsStorage productsStorage) {
+        ProductCatalogFacade catalogFacade = new ProductCatalogFacade(productsStorage);
 
         String pId1 = catalogFacade.createProduct();
         catalogFacade.applyPrice(pId1, BigDecimal.TEN);
