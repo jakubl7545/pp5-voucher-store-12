@@ -2,9 +2,10 @@ package pl.jkanclerz.voucherstore.productcatalog;
 
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.math.BigDecimal;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 
 public class ProductCatalogTest {
 
@@ -53,9 +54,57 @@ public class ProductCatalogTest {
 
         productCatalog.applyPrice(productId, BigDecimal.valueOf(20.20));
         productCatalog.updateDetails(productId, MY_PRODUCT_DESC, MY_PRODUCT_PICTURE);
-
         List<Product> all = productCatalog.getAvailableProducts();
-        Assert.assertEquals(1, all.size());
+
+        assertThat(all)
+                .hasSize(1)
+                .extracting(Product::getId)
+                .contains(productId)
+                .doesNotContain(draftProductId);
+    }
+
+    @Test
+    public void itDenyActionOnProductThatNotExistsV1() {
+        ProductCatalogFacade  productCatalog  = thereIsProductCatalog();
+        try {
+            productCatalog.applyPrice("notExists", BigDecimal.TEN);
+            Assert.fail("should throw exception");
+        } catch (ProductNotFoundException e) {
+            Assert.assertTrue(true);
+        }
+    }
+
+    @Test(expected = ProductNotFoundException.class)
+    public void itDenyActionOnProductThatNotExistsV2() {
+        ProductCatalogFacade  productCatalog  = thereIsProductCatalog();
+        productCatalog.applyPrice("notExists", BigDecimal.TEN);
+        productCatalog.updateDetails("notExists", "desc", "picture");
+    }
+
+    @Test
+    public void itDenyActionOnProductThatNotExistsV3() {
+        ProductCatalogFacade  productCatalog  = thereIsProductCatalog();
+
+        assertThatThrownBy(() -> productCatalog.applyPrice("notExists", BigDecimal.TEN))
+                .hasMessage("There is no product with id: notExists")
+        ;
+    }
+
+    @Test
+    public void exceptionOnLoadingNotExisted() {
+        ProductCatalogFacade  productCatalog  = thereIsProductCatalog();
+
+        assertThatThrownBy(() -> productCatalog.applyPrice("notExists", BigDecimal.TEN))
+                .hasMessage("There is no product with id: notExists")
+        ;
+
+        assertThatThrownBy(() -> productCatalog.getById("notExists"))
+                .hasMessage("There is no product with id: notExists")
+        ;
+
+        assertThatThrownBy(() -> productCatalog.updateDetails("notExists", "desc", "pic"))
+                .hasMessage("There is no product with id: notExists")
+        ;
     }
 
     private static ProductCatalogFacade thereIsProductCatalog() {
