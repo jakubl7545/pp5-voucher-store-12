@@ -1,8 +1,19 @@
 package pl.jkanclerz.voucherstore.sales;
 
+import org.junit.Before;
 import org.junit.Test;
+import pl.jkanclerz.voucherstore.sales.offer.Offer;
 
 public class OrderingTest extends SalesTestCase {
+
+    @Before
+    public void setUp() {
+        productCatalog = thereIsProductCatalog();
+        basketStorage = thereIsBasketStore();
+        alwaysExistsInventory = thereIsInventory();
+        currentCustomerContext = thereIsCurrentCustomerContext();
+
+    }
 
     @Test
     public void itCreateOrderBasedOnCurrentOffer() {

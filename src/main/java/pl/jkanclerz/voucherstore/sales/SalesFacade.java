@@ -2,6 +2,9 @@ package pl.jkanclerz.voucherstore.sales;
 
 import pl.jkanclerz.voucherstore.productcatalog.Product;
 import pl.jkanclerz.voucherstore.productcatalog.ProductCatalogFacade;
+import pl.jkanclerz.voucherstore.sales.basket.Basket;
+import pl.jkanclerz.voucherstore.sales.basket.InMemoryBasketStorage;
+import pl.jkanclerz.voucherstore.sales.offer.Offer;
 
 public class SalesFacade {
     private final InMemoryBasketStorage basketStorage;
