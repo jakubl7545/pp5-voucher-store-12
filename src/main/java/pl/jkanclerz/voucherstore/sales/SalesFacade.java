@@ -26,4 +26,12 @@ public class SalesFacade {
 
         basketStorage.addForCustomer(currentCustomerContext.getCustomerId(), basket);
     }
+
+    public Offer getCurrentOffer() {
+        return new Offer();
+    }
+
+    public String acceptOffer(Offer seenOffer) {
+        return null;
+    }
 }
