@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pl.jkanclerz.voucherstore.sales.basket.Basket;
 import pl.jkanclerz.voucherstore.sales.offer.Offer;
+import pl.jkanclerz.voucherstore.sales.offer.OrderLine;
 
 import java.math.BigDecimal;
 
@@ -18,7 +19,7 @@ public class CollectingProductsTest extends SalesTestCase {
         basketStorage = thereIsBasketStore();
         alwaysExistsInventory = thereIsInventory();
         currentCustomerContext = thereIsCurrentCustomerContext();
-
+        offerMaker = thereIsOfferMaker(productCatalog);
     }
 
     @Test
@@ -78,6 +79,14 @@ public class CollectingProductsTest extends SalesTestCase {
                 .getCurrentOffer();
 
         assertThat(offer.getTotal()).isEqualTo(BigDecimal.valueOf(30));
+        assertThat(offer.getOrderItems())
+                .hasSize(2);
+        assertThat(offer.getOrderItems())
+                .filteredOn(orderLine -> orderLine.getProductId().equals(productId1))
+                .extracting(OrderLine::getQuantity)
+                .first()
+                .isEqualTo(2);
+
     }
 
     @Test
@@ -95,6 +104,8 @@ public class CollectingProductsTest extends SalesTestCase {
                 .getCurrentOffer();
 
         assertThat(offer.getTotal()).isEqualTo(BigDecimal.valueOf(10));
+        assertThat(offer.getOrderItems())
+                .hasSize(1);
     }
 
     private void thereIsXproductsInCustomersBasket(int productsCount, String customerId) {

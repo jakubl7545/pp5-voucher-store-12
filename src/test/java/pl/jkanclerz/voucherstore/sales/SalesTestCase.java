@@ -3,6 +3,8 @@ package pl.jkanclerz.voucherstore.sales;
 import pl.jkanclerz.voucherstore.productcatalog.ProductCatalogConfiguration;
 import pl.jkanclerz.voucherstore.productcatalog.ProductCatalogFacade;
 import pl.jkanclerz.voucherstore.sales.basket.InMemoryBasketStorage;
+import pl.jkanclerz.voucherstore.sales.offer.OfferMaker;
+import pl.jkanclerz.voucherstore.sales.productd.ProductDetails;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -14,6 +16,7 @@ public class SalesTestCase {
     protected Inventory alwaysExistsInventory;
     protected CurrentCustomerContext currentCustomerContext;
     protected String customerId;
+    protected OfferMaker offerMaker;
 
     protected CurrentCustomerContext thereIsCurrentCustomerContext() {
         return () -> customerId;
@@ -40,7 +43,21 @@ public class SalesTestCase {
     }
 
     protected SalesFacade thereIsSalesModule() {
-        return new SalesFacade(basketStorage, productCatalog, currentCustomerContext, alwaysExistsInventory);
+        return new SalesFacade(
+                basketStorage,
+                productCatalog,
+                currentCustomerContext,
+                alwaysExistsInventory,
+                offerMaker
+        );
+    }
+
+    protected OfferMaker thereIsOfferMaker(ProductCatalogFacade productCatalogFacade) {
+        return new OfferMaker(productId -> {
+            var product = productCatalogFacade.getById(productId);
+
+            return new ProductDetails(product.getId(), product.getDescription(), product.getPrice());
+        });
     }
 
     protected String thereIsCustomerWhoIsDoingSomeShopping() {

@@ -3,6 +3,7 @@ package pl.jkanclerz.voucherstore.sales;
 import org.junit.Before;
 import org.junit.Test;
 import pl.jkanclerz.voucherstore.sales.offer.Offer;
+import static org.assertj.core.api.Assertions.*;
 
 public class OrderingTest extends SalesTestCase {
 
@@ -12,7 +13,7 @@ public class OrderingTest extends SalesTestCase {
         basketStorage = thereIsBasketStore();
         alwaysExistsInventory = thereIsInventory();
         currentCustomerContext = thereIsCurrentCustomerContext();
-
+        offerMaker = thereIsOfferMaker(productCatalog);
     }
 
     @Test
@@ -27,12 +28,12 @@ public class OrderingTest extends SalesTestCase {
         sales.addToBasket(productId1);
         sales.addToBasket(productId2);
         Offer seenOffer = sales.getCurrentOffer();
-        String reservationId = sales.acceptOffer(seenOffer);
+        String reservationId = sales.acceptOffer(new ClientDetails(), seenOffer);
 
         thereIsPendingOrderWithId(reservationId);
     }
 
     private void thereIsPendingOrderWithId(String reservationId) {
-
+        assertThat(false).isTrue();
     }
 }
