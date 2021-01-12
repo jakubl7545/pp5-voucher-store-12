@@ -25,6 +25,4 @@ public class Product {
     public String getId() {
         return productID;
     }
-
-    private String newValue;
 }

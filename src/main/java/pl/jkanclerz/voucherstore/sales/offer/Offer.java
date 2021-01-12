@@ -6,11 +6,12 @@ import java.util.List;
 public class Offer {
     private final List<OrderLine> orderItems;
     private final BigDecimal total;
+    private final Integer productsCount;
 
     public Offer(List<OrderLine> orderItems, BigDecimal total) {
-
         this.orderItems = orderItems;
         this.total = total;
+        this.productsCount = orderItems.size();
     }
 
     public BigDecimal getTotal() {
@@ -19,5 +20,9 @@ public class Offer {
 
     public List<OrderLine> getOrderItems() {
         return orderItems;
+    }
+
+    public Integer getProductsCount() {
+        return productsCount;
     }
 }
