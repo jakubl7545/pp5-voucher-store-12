@@ -1,6 +1,7 @@
 package pl.jkanclerz.voucherstore.sales;
 
 import org.springframework.web.bind.annotation.*;
+import pl.jkanclerz.voucherstore.sales.dto.AcceptOfferRequest;
 import pl.jkanclerz.voucherstore.sales.offer.Offer;
 
 @RestController
@@ -23,6 +24,7 @@ public class SalesController {
     }
 
     @PostMapping("/api/accept-offer")
-    public void acceptOffer() {
+    public void acceptOffer(@RequestBody AcceptOfferRequest acceptOfferRequest) {
+        sales.acceptOffer(acceptOfferRequest.getClientDetails(), acceptOfferRequest.getSeenOffer());
     }
 }
