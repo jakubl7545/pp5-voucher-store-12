@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.*;
 
 public class PayUTest {
     @Test
-    public void itAllowsToRegisterPayment() {
+    public void itAllowsToRegisterPayment() throws PayUException {
         //Arrange
         var payu = thereIsPayU();
         var mySystemOrderId = UUID.randomUUID().toString();
@@ -47,6 +47,9 @@ public class PayUTest {
     }
 
     private PayU thereIsPayU() {
-        return new PayU();
+        return new PayU(
+                PayUApiConfiguration.sandbox(),
+                new NetHttpClientPayuHttp()
+        );
     }
 }
