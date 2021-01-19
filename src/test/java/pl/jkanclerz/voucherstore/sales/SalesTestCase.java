@@ -17,6 +17,7 @@ public class SalesTestCase {
     protected CurrentCustomerContext currentCustomerContext;
     protected String customerId;
     protected OfferMaker offerMaker;
+    protected PaymentGateway paymentGateway;
 
     protected CurrentCustomerContext thereIsCurrentCustomerContext() {
         return () -> customerId;
@@ -34,6 +35,10 @@ public class SalesTestCase {
         return new ProductCatalogConfiguration().productCatalogFacade();
     }
 
+    protected PaymentGateway thereIsInMemoryPaymentGateway() {
+        return new InMemoryPaymentGateway();
+    }
+
     protected String thereIsProductAvailable() {
         var id = productCatalog.createProduct();
         productCatalog.applyPrice(id, BigDecimal.valueOf(10));
@@ -48,7 +53,8 @@ public class SalesTestCase {
                 productCatalog,
                 currentCustomerContext,
                 alwaysExistsInventory,
-                offerMaker
+                offerMaker,
+                paymentGateway
         );
     }
 

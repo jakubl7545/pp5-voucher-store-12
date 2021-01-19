@@ -1,5 +1,6 @@
 package pl.jkanclerz.voucherstore.sales;
 
+import pl.jkanclerz.payment.payu.model.OrderCreateResponse;
 import pl.jkanclerz.voucherstore.productcatalog.Product;
 import pl.jkanclerz.voucherstore.productcatalog.ProductCatalogFacade;
 import pl.jkanclerz.voucherstore.sales.basket.Basket;
@@ -14,13 +15,15 @@ public class SalesFacade {
     private final CurrentCustomerContext currentCustomerContext;
     private final Inventory inventory;
     private final OfferMaker offerMaker;
+    private final PaymentGateway paymentGateway;
 
-    public SalesFacade(InMemoryBasketStorage basketStorage, ProductCatalogFacade productCatalogFacade, CurrentCustomerContext currentCustomerContext, Inventory inventory, OfferMaker offerMaker) {
+    public SalesFacade(InMemoryBasketStorage basketStorage, ProductCatalogFacade productCatalogFacade, CurrentCustomerContext currentCustomerContext, Inventory inventory, OfferMaker offerMaker, PaymentGateway paymentGateway) {
         this.basketStorage = basketStorage;
         this.productCatalogFacade = productCatalogFacade;
         this.currentCustomerContext = currentCustomerContext;
         this.inventory = inventory;
         this.offerMaker = offerMaker;
+        this.paymentGateway = paymentGateway;
     }
 
     public void addToBasket(String productId1) {
@@ -41,7 +44,7 @@ public class SalesFacade {
         return offerMaker.calculateOffer(basket.getBasketItems());
     }
 
-    public String acceptOffer(ClientDetails clientDetails, Offer seenOffer) {
+    public PaymentDetails acceptOffer(ClientDetails clientDetails, Offer seenOffer) {
         Basket basket = basketStorage.loadForCustomer(currentCustomerContext.getCustomerId())
                 .orElseGet(Basket::empty);
 
@@ -53,6 +56,6 @@ public class SalesFacade {
 
         Reservation reservation = Reservation.of(currentOffer);
 
-        return reservation.getId();
+        return paymentGateway.registerFor(reservation);
     }
 }

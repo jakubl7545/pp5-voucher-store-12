@@ -14,7 +14,7 @@ import java.util.UUID;
 public class SalesConfiguration {
 
     @Bean
-    SalesFacade salesFacade(ProductCatalogFacade productCatalogFacade, OfferMaker offerMaker) {
+    SalesFacade salesFacade(ProductCatalogFacade productCatalogFacade, OfferMaker offerMaker, PaymentGateway paymentGateway) {
         var alwaysSameCustomer = UUID.randomUUID().toString();
 
         return new SalesFacade(
@@ -22,8 +22,14 @@ public class SalesConfiguration {
                 productCatalogFacade,
                 () -> alwaysSameCustomer,
                 (productId) -> true,
-                offerMaker
+                offerMaker,
+                paymentGateway
         );
+    }
+
+    @Bean
+    PaymentGateway payUPaymentGateway() {
+        return new PayUPaymentGateway();
     }
 
     @Bean

@@ -28,7 +28,6 @@ public class PayU {
     }
 
     public OrderCreateResponse handle(OrderCreateRequest orderCreateRequest) throws PayUException {
-
         orderCreateRequest.setMerchantPosId(configuration.getPosId());
         HttpResponse<String> response = handlePost(orderCreateRequest);
 
