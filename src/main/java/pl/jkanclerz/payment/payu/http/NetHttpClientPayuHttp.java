@@ -1,6 +1,7 @@
-package pl.jkanclerz.payment.payu;
+package pl.jkanclerz.payment.payu.http;
 
-import java.io.IOException;
+import pl.jkanclerz.payment.payu.exceptions.PayUException;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -8,7 +9,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Map;
 
-public class NetHttpClientPayuHttp {
+public class NetHttpClientPayuHttp implements PayuHttp {
     private final HttpClient http;
 
     public NetHttpClientPayuHttp() {
@@ -18,6 +19,7 @@ public class NetHttpClientPayuHttp {
     }
 
 
+    @Override
     public HttpResponse<String> post(String url, String body, Map<String, String> headers) throws PayUException {
         var httpRequestBuilder = HttpRequest.newBuilder()
                 .uri(URI.create(url))

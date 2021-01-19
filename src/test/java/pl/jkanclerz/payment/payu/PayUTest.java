@@ -1,6 +1,12 @@
 package pl.jkanclerz.payment.payu;
 
 import org.junit.Test;
+import pl.jkanclerz.payment.payu.exceptions.PayUException;
+import pl.jkanclerz.payment.payu.http.NetHttpClientPayuHttp;
+import pl.jkanclerz.payment.payu.model.Buyer;
+import pl.jkanclerz.payment.payu.model.OrderCreateRequest;
+import pl.jkanclerz.payment.payu.model.OrderCreateResponse;
+import pl.jkanclerz.payment.payu.model.Product;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -48,7 +54,7 @@ public class PayUTest {
 
     private PayU thereIsPayU() {
         return new PayU(
-                PayUApiConfiguration.sandbox(),
+                PayUApiCredentials.sandbox(),
                 new NetHttpClientPayuHttp()
         );
     }
