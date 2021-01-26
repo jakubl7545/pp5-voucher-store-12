@@ -30,6 +30,8 @@ public class PayU {
 
     public OrderCreateResponse handle(OrderCreateRequest orderCreateRequest) throws PayUException {
         orderCreateRequest.setMerchantPosId(configuration.getPosId());
+        orderCreateRequest.setNotifyUrl(configuration.getNotifyUrl());
+
         HttpResponse<String> response = handlePost(orderCreateRequest);
 
         if (response.statusCode() == HTTP_FORBIDDEN) {

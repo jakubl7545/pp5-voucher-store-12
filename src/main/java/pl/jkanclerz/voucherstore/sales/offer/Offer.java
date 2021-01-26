@@ -25,4 +25,8 @@ public class Offer {
     public Integer getProductsCount() {
         return productsCount;
     }
+
+    public boolean isSameTotal(Offer seenOffer) {
+        return seenOffer.getTotal().equals(total);
+    }
 }

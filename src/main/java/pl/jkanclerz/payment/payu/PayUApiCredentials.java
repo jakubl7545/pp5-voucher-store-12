@@ -9,6 +9,7 @@ public class PayUApiCredentials {
     private final String clientId;
     private final String clientSecret;
     private final String baseUrl;
+    private final String notifyUrl;
 
     public PayUApiCredentials(String posId, String secondKey, String clientId, String clientSecret, String baseUrl) {
         this.posId = posId;
@@ -16,6 +17,7 @@ public class PayUApiCredentials {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.baseUrl = baseUrl;
+        this.notifyUrl = "http://127.0.0.1/notify/me";
     }
 
     public static PayUApiCredentials sandbox() {
@@ -34,5 +36,9 @@ public class PayUApiCredentials {
                 clientId,
                 clientSecret,
                 "https://secure.payu.com");
+    }
+
+    public String getNotifyUrl() {
+        return notifyUrl;
     }
 }

@@ -4,6 +4,8 @@ import pl.jkanclerz.voucherstore.productcatalog.ProductCatalogConfiguration;
 import pl.jkanclerz.voucherstore.productcatalog.ProductCatalogFacade;
 import pl.jkanclerz.voucherstore.sales.basket.InMemoryBasketStorage;
 import pl.jkanclerz.voucherstore.sales.offer.OfferMaker;
+import pl.jkanclerz.voucherstore.sales.ordering.InMemoryReservationRepository;
+import pl.jkanclerz.voucherstore.sales.ordering.ReservationRepository;
 import pl.jkanclerz.voucherstore.sales.payment.InMemoryPaymentGateway;
 import pl.jkanclerz.voucherstore.sales.payment.PaymentGateway;
 import pl.jkanclerz.voucherstore.sales.productd.ProductDetails;
@@ -20,6 +22,7 @@ public class SalesTestCase {
     protected String customerId;
     protected OfferMaker offerMaker;
     protected PaymentGateway paymentGateway;
+    protected ReservationRepository reservationRepository;
 
     protected CurrentCustomerContext thereIsCurrentCustomerContext() {
         return () -> customerId;
@@ -56,7 +59,8 @@ public class SalesTestCase {
                 currentCustomerContext,
                 alwaysExistsInventory,
                 offerMaker,
-                paymentGateway
+                paymentGateway,
+                reservationRepository
         );
     }
 
@@ -70,5 +74,9 @@ public class SalesTestCase {
 
     protected String thereIsCustomerWhoIsDoingSomeShopping() {
         return UUID.randomUUID().toString();
+    }
+
+    protected ReservationRepository thereIsInMemoryReservationRepository() {
+        return new InMemoryReservationRepository();
     }
 }
