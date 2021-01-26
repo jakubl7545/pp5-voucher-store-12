@@ -2,6 +2,9 @@ package pl.jkanclerz.voucherstore.sales;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pl.jkanclerz.payment.payu.PayU;
+import pl.jkanclerz.payment.payu.PayUApiCredentials;
+import pl.jkanclerz.payment.payu.http.NetHttpClientPayuHttp;
 import pl.jkanclerz.voucherstore.productcatalog.ProductCatalogFacade;
 import pl.jkanclerz.voucherstore.sales.basket.InMemoryBasketStorage;
 import pl.jkanclerz.voucherstore.sales.offer.OfferMaker;
@@ -28,8 +31,16 @@ public class SalesConfiguration {
     }
 
     @Bean
-    PaymentGateway payUPaymentGateway() {
-        return new PayUPaymentGateway();
+    PaymentGateway payUPaymentGateway(PayU payU) {
+        return new PayUPaymentGateway(payU);
+    }
+
+    @Bean
+    PayU payU() {
+        return new PayU(
+            PayUApiCredentials.sandbox(),
+            new NetHttpClientPayuHttp()
+        );
     }
 
     @Bean

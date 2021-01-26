@@ -27,4 +27,10 @@ public class SalesController {
     public void acceptOffer(@RequestBody AcceptOfferRequest acceptOfferRequest) {
         sales.acceptOffer(acceptOfferRequest.getClientDetails(), acceptOfferRequest.getSeenOffer());
     }
+
+    @PostMapping("/api/payment/status")
+    public void updatePaymentStatus(@RequestHeader("OpenPayu-Signature") String signatureHeader, @RequestBody String body) {
+        PaymentUpdateStatusRequest updateStatusRequest = PaymentUpdateStatusRequest.of(signatureHeader, body);
+        sales.handlePaymentStatusChange(updateStatusRequest);
+    }
 }
