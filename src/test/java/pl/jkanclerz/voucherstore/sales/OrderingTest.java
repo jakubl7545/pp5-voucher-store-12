@@ -3,6 +3,7 @@ package pl.jkanclerz.voucherstore.sales;
 import org.junit.Before;
 import org.junit.Test;
 import pl.jkanclerz.voucherstore.sales.offer.Offer;
+import pl.jkanclerz.voucherstore.sales.payment.PaymentDetails;
 
 public class OrderingTest extends SalesTestCase {
 

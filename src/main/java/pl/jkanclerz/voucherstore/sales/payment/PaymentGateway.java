@@ -1,4 +1,4 @@
-package pl.jkanclerz.voucherstore.sales;
+package pl.jkanclerz.voucherstore.sales.payment;
 
 import pl.jkanclerz.voucherstore.sales.ordering.Reservation;
 

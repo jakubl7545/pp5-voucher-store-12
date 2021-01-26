@@ -1,6 +1,5 @@
 package pl.jkanclerz.voucherstore.sales;
 
-import pl.jkanclerz.payment.payu.model.OrderCreateResponse;
 import pl.jkanclerz.voucherstore.productcatalog.Product;
 import pl.jkanclerz.voucherstore.productcatalog.ProductCatalogFacade;
 import pl.jkanclerz.voucherstore.sales.basket.Basket;
@@ -8,6 +7,10 @@ import pl.jkanclerz.voucherstore.sales.basket.InMemoryBasketStorage;
 import pl.jkanclerz.voucherstore.sales.offer.Offer;
 import pl.jkanclerz.voucherstore.sales.offer.OfferMaker;
 import pl.jkanclerz.voucherstore.sales.ordering.Reservation;
+import pl.jkanclerz.voucherstore.sales.payment.PaymentDetails;
+import pl.jkanclerz.voucherstore.sales.payment.PaymentGateway;
+import pl.jkanclerz.voucherstore.sales.payment.PaymentUpdateStatusRequest;
+import pl.jkanclerz.voucherstore.sales.payment.UntrustedPaymentException;
 
 public class SalesFacade {
     private final InMemoryBasketStorage basketStorage;

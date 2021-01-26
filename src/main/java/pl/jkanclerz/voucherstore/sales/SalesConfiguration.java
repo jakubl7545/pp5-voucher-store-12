@@ -8,6 +8,8 @@ import pl.jkanclerz.payment.payu.http.NetHttpClientPayuHttp;
 import pl.jkanclerz.voucherstore.productcatalog.ProductCatalogFacade;
 import pl.jkanclerz.voucherstore.sales.basket.InMemoryBasketStorage;
 import pl.jkanclerz.voucherstore.sales.offer.OfferMaker;
+import pl.jkanclerz.voucherstore.sales.payment.PayUPaymentGateway;
+import pl.jkanclerz.voucherstore.sales.payment.PaymentGateway;
 import pl.jkanclerz.voucherstore.sales.productd.ProductCatalogProductDetailsProvider;
 import pl.jkanclerz.voucherstore.sales.productd.ProductDetailsProvider;
 
