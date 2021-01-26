@@ -3,6 +3,7 @@ package pl.jkanclerz.payment.payu;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.codec.digest.DigestUtils;
 import pl.jkanclerz.payment.payu.exceptions.PayUException;
 import pl.jkanclerz.payment.payu.http.PayuHttp;
 import pl.jkanclerz.payment.payu.model.AccessTokenResponse;
@@ -92,5 +93,12 @@ public class PayU {
 
     private String getUrl(String uri) {
         return String.format("%s%s", configuration.getBaseUrl(), uri);
+    }
+
+    public boolean isTrusted(String confirmationAsJson, String signature) {
+        var toBeHashed = confirmationAsJson + configuration.getSecondKey();
+        var md5Hash = DigestUtils.md5Hex(toBeHashed).toUpperCase();
+
+        return md5Hash.equals(signature.toUpperCase());
     }
 }
